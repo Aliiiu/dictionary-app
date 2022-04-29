@@ -17,7 +17,7 @@ const Header = () => {
   }
 
   return (
-    <div className="bg-gray-500 w-[50rem] mx-auto mt-[2rem] py-8 text-center rounded-xl">
+    <div className="bg-gray-500 py-8 text-center container">
       <h1 className="text-white text-[30px] font-bold">Dictionary App</h1>
       <p className="mt-1 mb-10 text-slate-300 text-[18px]">Know the meaning of your desired word</p>
 
