@@ -1,13 +1,19 @@
-import React, {useRef, useState} from 'react'
+import React, {useContext, useRef, useState} from 'react'
+import WordContext from '../store/word-context'
 
 const Header = () => {
   const [word, setWord] = useState('')
+
+  const ctx = useContext(WordContext)
+  
   const inputRef = useRef()
 
   const searchHandler = (event) => {
     event.preventDefault();
     const enteredWord = inputRef.current.value;
     setWord(enteredWord)
+    ctx.setInputValue(enteredWord)
+    inputRef.current.value = ''
   }
 
   return (
@@ -27,7 +33,7 @@ const Header = () => {
         </form>
       </div>
 
-      <h3 className="text-gray-50 text-center mt-4">Result for: <span className="text-white font-bold">{word}</span> </h3>
+      {ctx.inputValue && <h3 className="text-gray-50 text-center mt-4">Result for: <span className="text-white font-bold">{ctx.inputValue}</span> </h3>}
     </div>
   )
 }
