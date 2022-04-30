@@ -1,5 +1,4 @@
-import React, {useContext, useState} from 'react';
-import WordContext from '../store/word-context';
+import React from 'react';
 
 const Phonetics = (props) => {
   let audio = null
