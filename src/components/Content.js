@@ -5,34 +5,35 @@ import Meanings from './Meanings';
 import Example from './Example';
 import Synonym from './Synonym';
 import Phonetics from './Phonetics';
-// axios.defaults.baseURL = 'https://api.dictionaryapi.dev/api/v2/entries/en'
 
 const Content = () => {
   const ctx = useContext(WordContext)
+  const [randWord, setRandWord] = useState('')
   const [response, setResponse] = useState(null)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const getWord = async () => {
-    const res = await axios('https://random-words-api.vercel.app/word');
-    ctx.setWord(res.data[0].word)
-    return res.data[0].word;
-  }
+  // const getWord = async () => {
+  //   const res = await axios('https://random-words-api.vercel.app/word');
+  //   ctx.setWord(res.data[0].word)
+  //   return res.data[0].word;
+  // }
 
-  console.log(`input value = ${ctx.inputValue}`)
 
   useEffect(() => {
     
-    const fetchApi = async () => {
+    const fetchApi = async (params) => {
       try {
         setLoading(true)
-        if (ctx.inputValue === '') {
-          let war = await getWord()
+        if (params === '') {
+          const sug = await axios.get('https://random-words-api.vercel.app/word')
+          setRandWord(sug.data[0].word)
+          let war = sug.data[0].word
           console.log(`random word = ${war}`)
           const raw = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${war}`);
           setResponse(raw.data)
         } else {
-          const res = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${ctx.inputValue}`);
+          const res = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${params}`);
           setResponse(res.data)
         }
         setError(null) 
@@ -44,10 +45,10 @@ const Content = () => {
         setLoading(false)
       }
     }
-    fetchApi()
+    fetchApi(ctx.inputValue)
   }, [ctx.inputValue])
 
-  
+  ctx.setWord(randWord)
   if (loading) {
     return (
       <div className='flex flex-col space-y-3 animate-pulse p-4 container mx'>
