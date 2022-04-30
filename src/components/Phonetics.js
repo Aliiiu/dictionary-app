@@ -2,20 +2,26 @@ import React, {useContext, useState} from 'react';
 import WordContext from '../store/word-context';
 
 const Phonetics = (props) => {
-  const ctx = useContext(WordContext)
-  const audio = new Audio(props.wordData[0].phonetics[0].audio)
+  let audio = null
+  if (props.wordData[0].phonetics.length > 0){
+    audio = new Audio(props.wordData[0].phonetics[0].audio)
+  }
+    
 
   const audioHandler = () => {
-    audio.play()
+    if (audio) {
+      audio.play()
+    }
   }
   return (
     <div className='flex justify-between items-center'>
         <div className='flex items-center'>
-          {/* <p>{ctx.inputValue}</p> */}
           <p className='text-xl font-semibold mr-7'>{props.wordData[0].word}</p>
-          <span>
+          {(props.wordData[0].phonetics.length > 1) ? (<span>
             --- {(props.wordData[0].phonetic) || (props.wordData[0].phonetics[1].text)}
-          </span>
+          </span>) : (props.wordData[0].phonetics.length > 0) ? (<span>
+            --- {(props.wordData[0].phonetic)}
+          </span>) : null}
         </div>
         <i className='fas fa-volume-up' onClick={audioHandler}></i>
       </div>

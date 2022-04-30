@@ -24,6 +24,11 @@ code {
 }
 
 .content {
-  height: 40rem;
+  max-height: 40rem;
   overflow: scroll;
+}
+
+.input-border {
+  border: 1px solid #ccc;
+  border-radius: 16px;
 }
